@@ -6,3 +6,14 @@ before_script:
   - git clone --quiet --depth 1 https://github.com/ros-industrial/industrial_ci .industrial_ci
 kinetic:
   script: .industrial_ci/gitlab.sh ROS_DISTRO=kinetic
+
+catkin_make:
+  stage: build
+  script:
+    - catkin_make
+
+catkin_make tests:
+  stage: test
+  script:
+    - catkin_make run_tests
+
