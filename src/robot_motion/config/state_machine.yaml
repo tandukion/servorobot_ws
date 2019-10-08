@@ -1,0 +1,65 @@
+states:
+  -
+    name: uninitialized
+  -
+    name: initialized
+    on_enter: on_enter_initialized
+  -
+    name: standby
+    on_enter: on_enter_standby
+  -
+    name: pick
+    on_enter: on_enter_pick
+  -
+    name: place
+    on_enter: on_enter_place
+  -
+    name: go_home
+    on_enter: on_enter_go_home
+  -
+    name: motion_error
+    on_enter: on_enter_motion_error
+transitions:
+  -
+    trigger: trig_initialized
+    source: uninitialized
+    dest: initialized
+  -
+    trigger: trig_pick
+    source: standby
+    dest: pick
+  -
+    trigger: trig_place
+    source: pick
+    dest: place
+  -
+    trigger: trig_go_home
+    source: initialized
+    dest: go_home
+  -
+    trigger: trig_go_home
+    source: place
+    dest: go_home
+  -
+    trigger: trig_standby
+    source: go_home
+    dest: standby
+
+  # Error handling triggers
+  -
+    trigger: trig_motion_error
+    source: pick
+    dest: motion_error
+  -
+    trigger: trig_motion_error
+    source: place
+    dest: motion_error
+  -
+    trigger: trig_motion_error
+    source: go_home
+    dest: motion_error
+  -
+    trigger: trig_go_home
+    source: motion_error
+    dest: go_home
+initial: uninitialized

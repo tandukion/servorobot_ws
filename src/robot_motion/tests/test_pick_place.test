@@ -1,0 +1,13 @@
+<launch>
+    <arg name="sim" default="true" />
+    <arg name="robot_ip" unless="$(arg sim)" />
+
+    <group if="$(arg sim)">
+        <include file="$(find servorobot_arm_moveit_config)/launch/moveit_planning_execution.launch">
+          <arg name="sim" value="$(arg sim)" />
+        </include>
+    </group>
+
+    <node pkg="robot_motion" type="pick_place.py" name="pick_place"/>
+    <test pkg="robot_motion" type="test_pick_place.py" test-name="test_pick_place" cwd="node" time-limit="100.0"></test>
+</launch>
