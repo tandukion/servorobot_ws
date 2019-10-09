@@ -20,5 +20,6 @@ catkin_make:
 catkin_make tests:
   stage: test
   script:
+    - catkin_make
     - catkin_make run_tests
 

@@ -10,6 +10,7 @@ import threading
 import os
 import yaml
 import copy
+import time
 import moveit_commander
 import moveit_msgs.msg
 import moveit_msgs.srv
@@ -71,7 +72,6 @@ class PickPlaceLogic(GraphMachine):
             rospy.loginfo('Motion was successful')
         else:
             rospy.loginfo('Motion was unsuccessful')
-            self.trig_motion_error()
 
     def start_pick_and_place(self, msg):
         self.trig_pick()
@@ -127,6 +127,7 @@ class PickPlaceLogic(GraphMachine):
     def _publish_robot_state(self):
         while self.state == 'standby':
             self._state_machine_pub.publish(self.state)
+            time.sleep(0.02)
 
 if __name__ == '__main__':
     try:
