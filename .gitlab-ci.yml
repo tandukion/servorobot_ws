@@ -1,11 +1,16 @@
-image: docker:git
-services:
-  - docker:dind
+image: ros:kinetic-robot
+
+variables:
+  ROS_PACKAGES_TO_INSTALL: ""
+
+cache:
+  paths:
+    - ccache/
+
 before_script:
-  - apk add --update bash coreutils tar
-  - git clone --quiet --depth 1 https://github.com/ros-industrial/industrial_ci .industrial_ci
-kinetic:
-  script: .industrial_ci/gitlab.sh ROS_DISTRO=kinetic
+ - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
+ - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
+
 
 catkin_make:
   stage: build
