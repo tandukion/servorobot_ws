@@ -22,4 +22,5 @@ catkin_make tests:
   script:
     - catkin_make
     - catkin_make run_tests
+    - catkin_make test
 
