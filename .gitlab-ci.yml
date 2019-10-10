@@ -14,7 +14,7 @@ before_script:
  - pip install -r requirements.txt
 
 catkin_make tests:
-  stage: build-and-test
+  stage: test
   script:
     - catkin_make
     - catkin_make run_tests
