@@ -11,7 +11,7 @@ before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
  - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
  - apt-get install -y python-dev python-pip
- - pip install -r requirements.txt
+ - pip install transitions
 
 catkin_make tests:
   stage: test
