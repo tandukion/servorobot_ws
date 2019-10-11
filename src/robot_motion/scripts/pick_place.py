@@ -62,6 +62,10 @@ class PickPlaceLogic(GraphMachine):
         self.trig_initialized()
 
     def _motion_result_callback(self, msg):
+        """
+        Callback for motion result
+        :param msg: message received
+        """
         self._motion_result_code = msg.result.error_code.val
         self._motion_result_event.set()
 
