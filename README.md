@@ -1,2 +1,2 @@
 # Servo Robot workspace
-Workspace for working with servo robot using servorobot ROS-Industrial package
+Testing workspace for trying Continuous Integration (CI)
