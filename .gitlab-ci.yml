@@ -30,7 +30,7 @@ before_script:
 
  # Install ROS packages
  # Split packages into package list
- - ROS_PACKAGES_TO_INSTALL="moveit"
+ # - ROS_PACKAGES_TO_INSTALL="moveit"
  - IFS=' ' read -ra PACKAGES <<< "${ROS_PACKAGES_TO_INSTALL}"
  # Clear packages list
  - ROS_PACKAGES_TO_INSTALL=""
