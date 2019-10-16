@@ -26,17 +26,13 @@ catkin_make:
     expire_in: 1 day
   script:
     - catkin_make
-    - echo $PWD
-    - echo $CI_PROJECT_DIR
-    - ls
-    - tar cf build.tar build devel
-    - ls
+    - tar cf $CI_PROJECT_DIR/build.tar build devel
 
 catkin_make tests:
   stage: test
   script:
-    - tar xf build.tar
-    - source $CI_PROJECT_DIR/devel/setup.bash
+    - tar xf $CI_PROJECT_DIR/build.tar -C $PWD
+    - source devel/setup.bash
     - catkin_make run_tests
     - catkin_make test
 
