@@ -12,6 +12,7 @@ before_script:
  - apt-get install -y python-dev python-pip
  - pip install transitions
 
+ # cache
  - mkdir -p ccache
  - export CCACHE_BASEDIR=${PWD}
  - export CCACHE_DIR=${PWD}/ccache
@@ -25,7 +26,10 @@ catkin_make:
     expire_in: 1 day
   script:
     - catkin_make
+    - echo $PWD
+    - ls
     - tar cf build.tar build devel
+    - ls
 
 catkin_make tests:
   stage: test
