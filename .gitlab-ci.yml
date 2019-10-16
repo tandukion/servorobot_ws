@@ -21,11 +21,11 @@ before_script:
  # ROS setup
  - ROS_DISTRO=$(ls /opt/ros/)
  - source /opt/ros/${ROS_DISTRO}/setup.bash
- - apt-get install -qq wget
+ - apt-get -qq install wget
  - sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
  - wget http://packages.ros.org/ros.key -O - | apt-key add -
  - apt-get -qq update -y
- - apt-get install -qq -y python-catkin-tools python-catkin-lint xterm
+ - apt-get -qq install -y python-catkin-tools python-catkin-lint xterm
  - export TERM="xterm"
 
  # Install ROS packages
@@ -40,7 +40,7 @@ before_script:
      ROS_PACKAGES_TO_INSTALL="${ROS_PACKAGES_TO_INSTALL} ros-${ROS_DISTRO}-${package}"
    done
  # Install
- - apt-get install -qq -y ${ROS_PACKAGES_TO_INSTALL}
+ - apt-get -qq install -y ${ROS_PACKAGES_TO_INSTALL}
 
  # Color diagnostics
  - gcc_version="$(gcc -dumpversion)"
@@ -61,6 +61,10 @@ before_script:
      export CXXFLAGS="${CXXFLAGS} -std=c++11"
    fi
 
+ # Init submodules
+ - git submodule sync --recursive
+ - git submodule update --init --recursive
+
 catkin_make:
   stage: build
   artifacts:
@@ -69,7 +73,6 @@ catkin_make:
     expire_in: 1 day
   script:
     - catkin_make
-    - ls $PWD
     - tar cf $CI_PROJECT_DIR/build.tar build devel
 
 catkin_make tests:
