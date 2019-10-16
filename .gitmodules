@@ -1,6 +1,6 @@
 [submodule "src/servorobot"]
 	path = src/servorobot
-	url = https://github.com/tandukion/servorobot.git
+	url = ../../tandukion/servorobot.git
 [submodule "src/industrial_core"]
 	path = src/industrial_core
 	url = https://github.com/ros-industrial/industrial_core.git
