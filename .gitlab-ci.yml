@@ -12,6 +12,11 @@ before_script:
  - apt-get install -y python-dev python-pip
  - pip install transitions
 
+ - mkdir -p ccache
+ - export CCACHE_BASEDIR=${PWD}
+ - export CCACHE_DIR=${PWD}/ccache
+ - export PATH=/usr/lib/ccache:$PATH
+
 catkin_make:
   stage: build
   artifacts:
