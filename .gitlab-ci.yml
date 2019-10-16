@@ -7,9 +7,6 @@ cache:
     - ccache/
 
 before_script:
- # git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- # source ros_gitlab_ci/gitlab-ci.bash >/dev/null
-
  # cache
  - apt-get -qq update
  - apt-get install -qq ccache
@@ -18,9 +15,10 @@ before_script:
  - export CCACHE_DIR=${CI_PROJECT_DIR}/ccache
  - export PATH=/usr/lib/ccache:$PATH
 
- # ROS setup
+ # === ROS setup ===
  - ROS_DISTRO=$(ls /opt/ros/)
  - source /opt/ros/${ROS_DISTRO}/setup.bash
+ # Install catkin tools and catkin lint
  - apt-get -qq install wget
  - sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
  - wget http://packages.ros.org/ros.key -O - | apt-key add -
@@ -28,9 +26,9 @@ before_script:
  - apt-get -qq install -y python-catkin-tools python-catkin-lint xterm
  - export TERM="xterm"
 
- # Install ROS packages
+ # ===  Install ROS packages ===
  # Split packages into package list
- # - ROS_PACKAGES_TO_INSTALL="moveit"
+ # - ROS_PACKAGES_TO_INSTALL="moveit" # no need to add moveit if using image with moveit installed
  - IFS=' ' read -ra PACKAGES <<< "${ROS_PACKAGES_TO_INSTALL}"
  # Clear packages list
  - ROS_PACKAGES_TO_INSTALL=""
@@ -42,6 +40,7 @@ before_script:
  # Install
  - apt-get -qq install -y ${ROS_PACKAGES_TO_INSTALL}
 
+ # === MISC ===
  # Color diagnostics
  - gcc_version="$(gcc -dumpversion)"
  - required_ver="4.9.0"
