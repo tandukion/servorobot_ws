@@ -22,11 +22,12 @@ catkin_make:
   stage: build
   artifacts:
     paths:
-      - build.tar
+      - $CI_PROJECT_DIR/build.tar
     expire_in: 1 day
   script:
     - catkin_make
     - echo $PWD
+    - echo $CI_PROJECT_DIR
     - ls
     - tar cf build.tar build devel
     - ls
@@ -35,7 +36,7 @@ catkin_make tests:
   stage: test
   script:
     - tar xf build.tar
-    - source devel/setup.bash
+    - source $CI_PROJECT_DIR/devel/setup.bash
     - catkin_make run_tests
     - catkin_make test
 
