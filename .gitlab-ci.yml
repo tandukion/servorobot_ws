@@ -7,16 +7,57 @@ cache:
     - ccache/
 
 before_script:
- - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
- - apt-get install -y python-dev python-pip
- - pip install transitions
+ # git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
+ # source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
  # cache
+ - apt-get install -qq ccache
  - mkdir -p ccache
- - export CCACHE_BASEDIR=${PWD}
- - export CCACHE_DIR=${PWD}/ccache
+ - export CCACHE_BASEDIR=${CI_PROJECT_DIR}
+ - export CCACHE_DIR=${CI_PROJECT_DIR}/ccache
  - export PATH=/usr/lib/ccache:$PATH
+
+ # ROS setup
+ - ROS_DISTRO=$(ls /opt/ros/)
+ - source /opt/ros/${ROS_DISTRO}/setup.bash
+ - apt-get install -qq wget
+ - sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
+ - wget http://packages.ros.org/ros.key -O - | apt-key add -
+ - apt-get -qq update -y
+ - apt-get install -qq -y python-catkin-tools python-catkin-lint xterm
+ - export TERM="xterm"
+
+ # Install ROS packages
+ # Split packages into package list
+ - IFS=' ' read -ra PACKAGES <<< "${ROS_PACKAGES_TO_INSTALL}"
+ # Clear packages list
+ - ROS_PACKAGES_TO_INSTALL=""
+ # Append package list
+ - >
+   for package in "${PACKAGES[@]}"; do
+     ROS_PACKAGES_TO_INSTALL="${ROS_PACKAGES_TO_INSTALL} ros-${ROS_DISTRO}-${package}"
+   done
+ # Install
+ - apt-get install -qq -y ${ROS_PACKAGES_TO_INSTALL}
+
+ # Color diagnostics
+ - gcc_version="$(gcc -dumpversion)"
+ - required_ver="4.9.0"
+ - >
+   if [[ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" == "$gcc_version" ]] && [[ "$gcc_version" != "$required_ver" ]]; then
+     echo "Can't use -fdiagnostics-color, gcc is too old!"
+   else
+     if [[ ! -z "${DISABLE_GCC_COLORS}" && "${DISABLE_GCC_COLORS}" == "true" ]]; then
+       export CXXFLAGS="${CXXFLAGS} -fdiagnostics-color"
+     fi
+   fi
+
+ # Enable global C++11 if required by the user
+ - >
+   if [[ "${GLOBAL_C11}" == "true" ]]; then
+     echo "Enabling C++11 globally"
+     export CXXFLAGS="${CXXFLAGS} -std=c++11"
+   fi
 
 catkin_make:
   stage: build
@@ -26,6 +67,7 @@ catkin_make:
     expire_in: 1 day
   script:
     - catkin_make
+    - ls $PWD
     - tar cf $CI_PROJECT_DIR/build.tar build devel
 
 catkin_make tests:
