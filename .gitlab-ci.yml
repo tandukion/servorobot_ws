@@ -16,11 +16,12 @@ catkin_make:
   stage: build
   script:
     - catkin_make
+    - tar cf build.tar build devel
 
 catkin_make tests:
   stage: test
   script:
-    - catkin_make
+    - tar xf build.tar
     - source devel/setup.bash
     - catkin_make run_tests
     - catkin_make test
