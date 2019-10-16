@@ -14,6 +14,10 @@ before_script:
 
 catkin_make:
   stage: build
+  artifacts:
+    paths:
+      - build.tar
+    expire_in: 1 day
   script:
     - catkin_make
     - tar cf build.tar build devel
