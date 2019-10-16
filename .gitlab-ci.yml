@@ -11,6 +11,7 @@ before_script:
  # source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
  # cache
+ - apt-get -qq update
  - apt-get install -qq ccache
  - mkdir -p ccache
  - export CCACHE_BASEDIR=${CI_PROJECT_DIR}
