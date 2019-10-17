@@ -1,7 +1,6 @@
 image: tandukion/ci-runner:test
 variables:
   ROS_PACKAGES_TO_INSTALL: ""
-  DOCKER_AUTH_CONFIG: '{"auths": {"https://index.docker.io/v1/": {"auth": "dGFuZHVraW9uOmthaXpva3UyMzEy"}}}'
 
 cache:
   paths:
