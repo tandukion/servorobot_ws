@@ -36,15 +36,11 @@ before_install:
   - sudo rosdep init
   - rosdep update
   - sudo apt-get -qq update -y
+  - sudo apt-get -qq install -y ros-$ROS_DISTRO-catkin
   - sudo apt-get -qq install -y graphviz libgraphviz-dev pkg-config python-rosinstall python-rosinstall-generator python-wstool build-essential
 
   # ROS package installation
-  - sudo apt-get -qq install -y \
-    ros-${ROS_DISTRO}-moveit \
-    ros-${ROS_DISTRO}-pcl-ros \
-    ros-${ROS_DISTRO}-pcl-conversions \
-    ros-${ROS_DISTRO}-image-geometry \
-    ros-${ROS_DISTRO}-tf2-geometry-msgs
+  - sudo apt-get -qq install -y ros-${ROS_DISTRO}-moveit ros-${ROS_DISTRO}-pcl-ros ros-${ROS_DISTRO}-pcl-conversions ros-${ROS_DISTRO}-image-geometry ros-${ROS_DISTRO}-tf2-geometry-msgs
 
 install:
   # reinstall pip for installing pygraphviz
