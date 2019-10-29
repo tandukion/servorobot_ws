@@ -39,7 +39,7 @@ before_install:
   - sudo apt-get -qq install -y graphviz libgraphviz-dev pkg-config python-rosinstall python-rosinstall-generator python-wstool build-essential
 
   # ROS package installation
-  - sudo apt-get -qq install -y
+  - sudo apt-get -qq install -y \
     ros-${ROS_DISTRO}-moveit \
     ros-${ROS_DISTRO}-pcl-ros \
     ros-${ROS_DISTRO}-pcl-conversions \
