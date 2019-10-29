@@ -58,6 +58,8 @@ jobs:
     - stage: compile and test
       script:
       - catkin_make
+      - rosmsg list
       - source devel/setup.bash
+      - rosmsg list
       - catkin_make run_tests
       - catkin_make test
