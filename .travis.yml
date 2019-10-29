@@ -7,7 +7,6 @@ cache:
 # trigger a build matrix for different ROS distributions if desired.
 env:
   global:
-    - ROS_DISTRO=$(ls /opt/ros/)
     - ROS_CI_DESKTOP="`lsb_release -cs`"  # e.g. [trusty|xenial|...]
     - CI_SOURCE_PATH=$(pwd)
     - ROSINSTALL_FILE=$CI_SOURCE_PATH/dependencies.rosinstall
@@ -23,6 +22,7 @@ before_install:
   - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
   - sudo apt-get -qq update -y
   - sudo apt-get -qq install -y ros-$ROS_DISTRO-ros-full python-catkin-pkg python-rosdep python-wstool python-catkin-tools python-catkin-lint xterm
+  - export ROS_DISTRO=$(ls /opt/ros/)
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - sudo rosdep init
   - rosdep update --include-eol-distros  # Support EOL distros.
