@@ -44,8 +44,8 @@ before_install:
 
 install:
   # reinstall pip for installing pygraphviz
-  - python -m pip uninstall -y pip && apt-get install -y python-pip --reinstall
-  - pip install --user transitions pygraphviz scipy rospy-message-converter pandas memory_profiler numba networkx pymunk pyassimp==4.1.3
+  - sudo python -m pip uninstall -y pip && sudo apt-get install -y python-pip --reinstall
+  - sudo pip install --user transitions pygraphviz scipy rospy-message-converter pandas memory_profiler numba networkx pymunk pyassimp==4.1.3
 
 stages:
   - compile
