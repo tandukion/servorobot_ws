@@ -1,8 +1,8 @@
 language: generic
 sudo: required
 cache:
-  - apt
-  -
+  - ~/cache
+
 matrix:
   include:
   - name: "Trusty indigo"
@@ -54,10 +54,9 @@ stages:
 
 jobs:
   include:
-    - stage: compile
-      script: catkin_make
-    - stage: test
+    - stage: compile and test
       script:
+      - catkin_make
       - source devel/setup.bash
       - catkin_make run_tests
       - catkin_make test
