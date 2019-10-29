@@ -2,6 +2,15 @@ language: generic
 sudo: required
 cache:
   - apt
+  -
+matrix:
+  include:
+  - name: "Trusty indigo"
+    dist: trusty
+    env: ROS_DISTRO=indigo
+  - name: "Xenial kinetic"
+    dist: xenial
+    env: ROS_DISTRO=kinetic
 
 # Configuration variables. All variables are global now, but this can be used to
 # trigger a build matrix for different ROS distributions if desired.
@@ -21,7 +30,7 @@ before_install:
   - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
   - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
   - sudo apt-get -qq update -y
-  - sudo apt-get -qq install -y ros-$ROS_DISTRO-ros-full python-catkin-pkg python-rosdep python-wstool python-catkin-tools python-catkin-lint xterm
+  - sudo apt-get -qq install -y ros-$ROS_DISTRO-desktop-full python-catkin-pkg python-rosdep python-wstool python-catkin-tools python-catkin-lint xterm
   - export ROS_DISTRO=$(ls /opt/ros/)
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - sudo rosdep init
