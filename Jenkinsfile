@@ -5,7 +5,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'node --version'
                 sh 'catkin_make'
             }
             post {
