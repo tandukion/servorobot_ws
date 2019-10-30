@@ -2,11 +2,6 @@ pipeline {
     agent {
         docker { image 'tandukion/ci-runner:test' }
     }
-
-    environment {
-        DISABLE_AUTH = 'true'
-        DB_ENGINE    = 'sqlite'
-    }
     stages {
         stage('Build') {
             steps {
@@ -26,6 +21,7 @@ pipeline {
                     sh 'source devel/setup.bash'
                     sh 'catkin_make run_tests'
                     sh 'catkin_make test'
+                }
             }
         }
     }
