@@ -41,6 +41,7 @@ before_install:
 
   # ROS package installation
   - sudo apt-get -qq install -y ros-${ROS_DISTRO}-moveit ros-${ROS_DISTRO}-pcl-ros ros-${ROS_DISTRO}-pcl-conversions ros-${ROS_DISTRO}-image-geometry ros-${ROS_DISTRO}-tf2-geometry-msgs
+  - sudo apt-get -qq install -y ros-${ROS_DISTRO}-industrial-core
 
 install:
   # reinstall pip for installing pygraphviz
@@ -58,8 +59,6 @@ jobs:
     - stage: compile and test
       script:
       - catkin_make
-      - rosmsg list
       - source devel/setup.bash
-      - rosmsg list
       - catkin_make run_tests
       - catkin_make test
