@@ -9,8 +9,10 @@ pipeline {
                 sh 'catkin_make'
             }
             post {
-                sh 'tar cf build.tar build devel'
-                archiveArtifacts artifacts: 'build.tar', fingerprint: true
+                always {
+                    sh 'tar cf build.tar build devel'
+                    archiveArtifacts artifacts: 'build.tar', fingerprint: true
+                }
             }
         }
         stage('Test') {
