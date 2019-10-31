@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'tandukion/ci-runner:test' }
+    }
     stages {
         stage('Build') {
             steps {
