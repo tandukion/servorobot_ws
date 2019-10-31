@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bash '''#!/bin/bash
+                sh '''#!/bin/bash
                     catkin_make
                 '''
             }
@@ -19,7 +19,7 @@ pipeline {
         stage('Test') {
             steps {
                 copyArtifacts filter: 'build.tar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
-                bash '''#!/bin/bash
+                sh '''#!/bin/bash
                     tar xf build.tar
                     source devel/setup.bash
                     catkin_make run_tests
