@@ -25,7 +25,6 @@ pipeline {
                 docker { image 'tandukion/ci-runner:test' }
             }
             steps {
-                copyArtifacts filter: 'build.tar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
                 sh '''#!/bin/bash
                     tar xf build.tar
                     source "/opt/ros/kinetic/setup.bash"
