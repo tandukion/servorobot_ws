@@ -5,8 +5,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'source /opt/ros/kinetic/setup.bash'
-                sh 'catkin_make'
+                sh 'echo "Hello World"'
             }
             post {
                 success {
