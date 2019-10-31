@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        docker { image 'moveit/moveit:kinetic-release' }
-    }
+    agent any
     stages {
         stage('Build') {
             steps {
@@ -9,7 +7,7 @@ pipeline {
                 sh 'catkin_make'
             }
             post {
-                always {
+                success {
                     sh 'tar cf build.tar build devel'
                     archiveArtifacts artifacts: 'build.tar', fingerprint: true
                 }
