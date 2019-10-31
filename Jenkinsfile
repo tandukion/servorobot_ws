@@ -5,7 +5,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Hello World"'
+                sh '''
+                    #!/bin/bash
+                    catkin_make
+                '''
             }
             post {
                 success {
@@ -17,10 +20,12 @@ pipeline {
         stage('Test') {
             steps {
                 copyArtifacts filter: 'build.tar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
-                sh 'tar xf build.tar'
-                sh 'source devel/setup.bash'
-                sh 'catkin_make run_tests'
-                sh 'catkin_make test'
+                sh '''
+                    tar xf build.tar
+                    source devel/setup.bash
+                    catkin_make run_tests
+                    catkin_make test
+                '''
             }
         }
     }
