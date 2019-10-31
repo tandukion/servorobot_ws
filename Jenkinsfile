@@ -1,9 +1,9 @@
 pipeline {
-    agent {
-        docker { image 'tandukion/ci-runner:test' }
-    }
     stages {
         stage('Build') {
+            agent {
+                docker { image 'tandukion/ci-runner:test' }
+            }
             steps {
                 sh '''#!/bin/bash
                     source "/opt/ros/kinetic/setup.bash"
@@ -20,6 +20,9 @@ pipeline {
             }
         }
         stage('Test') {
+            agent {
+                docker { image 'tandukion/ci-runner:test' }
+            }
             steps {
                 copyArtifacts filter: 'build.tar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
                 sh '''#!/bin/bash
