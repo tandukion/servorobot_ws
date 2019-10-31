@@ -6,6 +6,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''#!/bin/bash
+                    source "/opt/ros/kinetic/setup.bash"
                     catkin_make
                 '''
             }
@@ -21,6 +22,7 @@ pipeline {
                 copyArtifacts filter: 'build.tar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
                 sh '''#!/bin/bash
                     tar xf build.tar
+                    source "/opt/ros/kinetic/setup.bash"
                     source devel/setup.bash
                     catkin_make run_tests
                     catkin_make test
