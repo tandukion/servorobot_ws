@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'tandukion/ci-runner:test' }
+        docker { image 'moveit/moveit:kinetic-release' }
     }
     stages {
         stage('Build') {
