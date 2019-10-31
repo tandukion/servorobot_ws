@@ -5,6 +5,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh 'ros_entrypoint.sh'
                 sh 'catkin_make'
             }
             post {
