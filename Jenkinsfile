@@ -7,6 +7,8 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                     source "/opt/ros/kinetic/setup.bash"
+                    git submodule sync --recursive
+                    git submodule update --init --recursive
                     catkin_make
                 '''
             }
