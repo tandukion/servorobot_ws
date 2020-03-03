@@ -25,7 +25,8 @@ jobs:
         sudo apt-get -qq install -y ros-$ROS_DISTRO-catkin python-catkin-tools        
         sudo rosdep init
         rosdep update
-        source /opt/ros/$ROS_DISTRO/setup.bash
+        echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+        source ~/.bashrc
         
     - name: Install ROS package
       run: |
