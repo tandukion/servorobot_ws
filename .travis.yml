@@ -5,9 +5,6 @@ cache:
 
 matrix:
   include:
-  - name: "Trusty indigo"
-    dist: trusty
-    env: ROS_DISTRO=indigo
   - name: "Xenial kinetic"
     dist: xenial
     env: ROS_DISTRO=kinetic
