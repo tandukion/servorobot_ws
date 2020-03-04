@@ -4,13 +4,17 @@ on: [push]
 
 jobs:
   build:
-    container: tandukion/ci-runner:test
+    runs-on: ubuntu-16.04
+    container:
+      image: tandukion/ci-runner:test
+      options: -v /root/.local
     env:
       ROS_DISTRO: kinetic
 
     steps:
     - run: |
         cat /proc/self/cgroup
+        pip show numpy
 
     - uses: actions/checkout@v1
     - run: |
