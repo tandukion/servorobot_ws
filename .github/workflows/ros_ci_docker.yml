@@ -18,11 +18,9 @@ jobs:
 
     - name: Install dependencies
       run: |
-        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
         for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
 
-        # Installing additional apt packages
         PACK=($(find | grep "packages.txt")) || true
         for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
 
