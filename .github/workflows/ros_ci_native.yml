@@ -43,7 +43,7 @@ jobs:
 
         # Installing additional apt packages
         PACK=($(find | grep "packages.txt")) || true
-        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
+        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs sudo apt-get -qq install -y; done
 
     - name: catkin_make
       run: |
