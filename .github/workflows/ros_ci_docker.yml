@@ -7,13 +7,15 @@ jobs:
     runs-on: ubuntu-16.04
     container:
       image: tandukion/ci-runner:test
-      options: -v /opt/ros:/opt/ros
+      options: -v /opt/ros:/opt/ros -v /root/.local:/root/.local
     env:
       ROS_DISTRO: kinetic
 
     steps:
     - run: |
+        PYTHONPATH = /opt/ros/kinetic/lib/python2.7/dist-packages:$PYTHONPATH
         echo $PYTHONPATH
+        PATH = /opt/ros/kinetic/bin/:/opt/ros/kinetic/bin:/root/.local/bin:$PATH
         pip show numpy
 
     - uses: actions/checkout@v1
