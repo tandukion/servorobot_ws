@@ -10,9 +10,13 @@ jobs:
       ROS_DISTRO: kinetic
 
     steps:
+    - run: |
+        cat /proc/self/cgroup
+
     - uses: actions/checkout@v1
     - run: |
         cat /proc/self/cgroup
+
     - name: Checkout submodules
       shell: bash -e {0}
       run: |
