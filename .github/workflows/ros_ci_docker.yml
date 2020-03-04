@@ -13,9 +13,9 @@ jobs:
 
     steps:
     - run: |
-        PYTHONPATH = /opt/ros/kinetic/lib/python2.7/dist-packages:$PYTHONPATH
+        PYTHONPATH=/opt/ros/kinetic/lib/python2.7/dist-packages:$PYTHONPATH
         echo $PYTHONPATH
-        PATH = /opt/ros/kinetic/bin/:/opt/ros/kinetic/bin:/root/.local/bin:$PATH
+        PATH=/opt/ros/kinetic/bin/:/opt/ros/kinetic/bin:/root/.local/bin:$PATH
         pip show numpy
 
     - uses: actions/checkout@v1
