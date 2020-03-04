@@ -11,14 +11,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - run: |
+        cat /proc/self/cgroup
     - name: Checkout submodules
-      shell: bash {0}
+      shell: bash -e {0}
       run: |
         git submodule sync --recursive
         git submodule update --init --recursive
 
+    - run: |
+        cat /proc/self/cgroup
+
     - name: Install dependencies
-      shell: bash {0}
+      shell: bash -e {0}
       run: |
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
@@ -29,12 +34,12 @@ jobs:
         for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
 
     - name: catkin_make
-      shell: bash {0}
+      shell: bash -e {0}
       run: |
         catkin_make
       
     - name: rostest
-      shell: bash {0}
+      shell: bash -e {0}
       run: |
         source devel/setup.bash
         catkin_make run_tests
