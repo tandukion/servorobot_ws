@@ -5,13 +5,12 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-16.04
+    container: tandukion/ci-runner:test
     env:
       ROS_DISTRO: kinetic
 
     steps:
-    - name: Pull docker image
-      uses: docker://tandukion/ci-runner:test
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - name: Checkout submodules
       run: |
         git submodule sync --recursive
@@ -19,14 +18,13 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
         for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
 
         # Installing additional apt packages
         PACK=($(find | grep "packages.txt")) || true
-        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs sudo apt-get -qq install -y; done
+        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
 
     - name: catkin_make
       run: |
