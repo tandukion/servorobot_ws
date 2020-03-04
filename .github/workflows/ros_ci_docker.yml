@@ -1,0 +1,42 @@
+name: ROS CI (docker)
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    env:
+      ROS_DISTRO: kinetic
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Checkout submodules
+      run: |
+        git submodule sync --recursive
+        git submodule update --init --recursive
+          
+    - name: Pull docker image
+      uses: docker://tandukion/ci-runner:test
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
+        REQ=($(find | grep "requirements.txt")) || true
+        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
+
+        # Installing additional apt packages
+        PACK=($(find | grep "packages.txt")) || true
+        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs sudo apt-get -qq install -y; done
+
+    - name: catkin_make
+      run: |
+        source /opt/ros/$ROS_DISTRO/setup.bash
+        catkin_make
+      
+    - name: rostest
+      run: |
+        source /opt/ros/$ROS_DISTRO/setup.bash
+        source devel/setup.bash
+        catkin_make run_tests
+        catkin_test_results
