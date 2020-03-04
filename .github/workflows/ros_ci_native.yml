@@ -28,8 +28,11 @@ jobs:
         
     - name: Install ROS package
       run: |
-        # MoveIt!
         sudo apt-get -qq install -y ros-$ROS_DISTRO-moveit
+        sudo apt-get -qq install -y ros-$ROS_DISTRO-industrial-core
+        sudo apt-get -qq install -y ros-$ROS_DISTRO-timed-roslaunch
+        sudo apt-get -qq install -y ros-$ROS_DISTRO-rosbridge-server
+        sudo apt-get -qq install -y ros-$ROS_DISTRO-tf2-web-republisher
 
     - name: Install dependencies
       run: |
@@ -37,6 +40,10 @@ jobs:
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
         for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
+
+        # Installing additional apt packages
+        PACK=($(find | grep "packages.txt")) || true
+        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
 
     - name: catkin_make
       run: |
