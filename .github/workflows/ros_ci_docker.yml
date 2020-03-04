@@ -5,6 +5,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-16.04
+    container: tandukion/ci-runner:test
     env:
       ROS_DISTRO: kinetic
 
@@ -14,9 +15,6 @@ jobs:
       run: |
         git submodule sync --recursive
         git submodule update --init --recursive
-          
-    - name: Pull docker image
-      uses: docker://tandukion/ci-runner:test
 
     - name: Install dependencies
       run: |
