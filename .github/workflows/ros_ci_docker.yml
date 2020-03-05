@@ -12,30 +12,7 @@ jobs:
       ROS_DISTRO: kinetic
 
     steps:
-    - name: Run into interactive Docker
-      run: |
-        docker run -it tandukion/ci-runner:test
-        
-    - name: Check boost
-      run: |
-        dpkg -s libboost-dev | grep 'Version'
-
-    - run: |
-        export PYTHONPATH="/opt/ros/kinetic/lib/python2.7/dist-packages"
-        export PATH="/opt/ros/kinetic/bin/:/opt/ros/kinetic/bin:/root/.local/bin:$PATH"
-        echo $PYTHONPATH
-        echo $PATH
-        pip show numpy
-
-    - run: |
-        ls /opt/ros/kinetic/lib/python2.7/dist-packages
-
-    - run: |
-        ls ~/.local/lib/python2.7/site-packages/
-
     - uses: actions/checkout@v1
-    - run: |
-        cat /proc/self/cgroup
 
     - name: Checkout submodules
       shell: bash -e {0}
@@ -43,19 +20,16 @@ jobs:
         git submodule sync --recursive
         git submodule update --init --recursive
 
-    - run: |
-        cat /proc/self/cgroup
-
-    - name: Install dependencies
-      shell: bash -e {0}
-      run: |
-        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
-        REQ=($(find | grep "requirements.txt")) || true
-        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
-
-        # Installing additional apt packages
-        PACK=($(find | grep "packages.txt")) || true
-        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
+#    - name: Install dependencies
+#      shell: bash -e {0}
+#      run: |
+#        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
+#        REQ=($(find | grep "requirements.txt")) || true
+#        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
+#
+#        # Installing additional apt packages
+#        PACK=($(find | grep "packages.txt")) || true
+#        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
 
     - name: catkin_make
       shell: bash -e {0}
