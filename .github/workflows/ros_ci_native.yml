@@ -9,10 +9,6 @@ jobs:
       ROS_DISTRO: kinetic
 
     steps:
-    - name: Check boost
-      run: |
-        dpkg -s libboost-dev | grep 'Version'
-
     - uses: actions/checkout@v2
     - name: Checkout submodules
       run: |
