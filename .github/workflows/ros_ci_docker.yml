@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-16.04
     container:
-      image: tandukion/ci-runner:test
+      image: ros:kinetic-robot
       options: -v /opt/ros:/opt/ros -v /root/.local:/root/.local
     env:
       ROS_DISTRO: kinetic
