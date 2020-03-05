@@ -12,6 +12,9 @@ jobs:
 
     steps:
     - run: |
+        sudo ls /usr/local/share
+
+    - run: |
         docker run -i tandukion/ci-runner:test
 
     - uses: actions/checkout@v1
