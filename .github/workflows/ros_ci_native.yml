@@ -9,6 +9,10 @@ jobs:
       ROS_DISTRO: kinetic
 
     steps:
+    - name: Check boost
+      run: |
+        dpkg -s libboost-dev | grep 'Version'
+
     - uses: actions/checkout@v2
     - name: Checkout submodules
       run: |
@@ -28,11 +32,9 @@ jobs:
         
     - name: Install ROS package
       run: |
-        sudo apt-get -qq install -y ros-$ROS_DISTRO-moveit
-        sudo apt-get -qq install -y ros-$ROS_DISTRO-industrial-core
-        sudo apt-get -qq install -y ros-$ROS_DISTRO-timed-roslaunch
-        sudo apt-get -qq install -y ros-$ROS_DISTRO-rosbridge-server
-        sudo apt-get -qq install -y ros-$ROS_DISTRO-tf2-web-republisher
+        # Create ros-$ROS_DISTRO-$PACKAGE for every package mentioned in "ros-packages.txt", then install it
+        FILE=($(find | grep "rospack.txt")) || true
+        for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do sudo apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
 
     - name: Install dependencies
       run: |
@@ -45,6 +47,10 @@ jobs:
         PACK=($(find | grep "packages.txt")) || true
         for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs sudo apt-get -qq install -y; done
 
+    - name: Check boost
+      run: |
+        dpkg -s libboost-dev | grep 'Version'
+        
     - name: catkin_make
       run: |
         source /opt/ros/$ROS_DISTRO/setup.bash

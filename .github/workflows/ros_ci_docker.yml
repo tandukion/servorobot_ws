@@ -15,7 +15,7 @@ jobs:
     - name: Check boost
       run: |
         dpkg -s libboost-dev | grep 'Version'
-        
+
     - run: |
         export PYTHONPATH="/opt/ros/kinetic/lib/python2.7/dist-packages"
         export PATH="/opt/ros/kinetic/bin/:/opt/ros/kinetic/bin:/root/.local/bin:$PATH"

@@ -1,0 +1,9 @@
+moveit
+industrial-core
+rosbridge-server
+tf2-web-republisher
+pcl-ros
+pcl-conversions
+image-geometry
+tf2-geometry-msgs
+timed-roslaunch
