@@ -13,11 +13,17 @@ jobs:
 
     steps:
     - run: |
-        export PYTHONPATH="/opt/ros/kinetic/lib/python2.7/dist-packages:$PYTHONPATH"
+        export PYTHONPATH="/opt/ros/kinetic/lib/python2.7/dist-packages"
         export PATH="/opt/ros/kinetic/bin/:/opt/ros/kinetic/bin:/root/.local/bin:$PATH"
         echo $PYTHONPATH
         echo $PATH
         pip show numpy
+
+    - run: |
+        ls /opt/ros/kinetic/lib/python2.7/dist-packages
+
+    - run: |
+        ls ~/.local/lib/python2.7/site-packages/
 
     - uses: actions/checkout@v1
     - run: |
