@@ -12,6 +12,10 @@ jobs:
       ROS_DISTRO: kinetic
 
     steps:
+    - name: Check boost
+      run: |
+        dpkg -s libboost-dev | grep 'Version'
+        
     - run: |
         export PYTHONPATH="/opt/ros/kinetic/lib/python2.7/dist-packages"
         export PATH="/opt/ros/kinetic/bin/:/opt/ros/kinetic/bin:/root/.local/bin:$PATH"
@@ -24,10 +28,6 @@ jobs:
 
     - run: |
         ls ~/.local/lib/python2.7/site-packages/
-
-    - name: Check boost
-      run: |
-        dpkg -s libboost-dev | grep 'Version'
 
     - uses: actions/checkout@v1
     - run: |
