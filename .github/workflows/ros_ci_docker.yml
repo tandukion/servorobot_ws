@@ -5,13 +5,15 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-16.04
-    container:
-      image: ros:kinetic-robot
-      options: -v /opt/ros:/opt/ros -v /root/.local:/root/.local
+#    container:
+#      image: tandukion/ci-runner:test
     env:
       ROS_DISTRO: kinetic
 
     steps:
+    - run: |
+        docker run -it tandukion/ci-runner:test
+
     - uses: actions/checkout@v1
 
     - name: Checkout submodules
