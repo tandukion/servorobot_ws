@@ -12,6 +12,10 @@ jobs:
       ROS_DISTRO: kinetic
 
     steps:
+    - name: Run into interactive Docker
+      run: |
+        docker run -it tandukion/ci-runner:test
+        
     - name: Check boost
       run: |
         dpkg -s libboost-dev | grep 'Version'
