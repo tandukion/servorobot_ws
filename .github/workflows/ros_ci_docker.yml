@@ -5,17 +5,14 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-16.04
-#    container:
-#      image: tandukion/ci-runner:test
+    container:
+      image: tandukion/ci-runner:test
     env:
       ROS_DISTRO: kinetic
 
     steps:
     - run: |
         sudo ls /usr/local/share
-
-    - run: |
-        /usr/bin/docker run -i tandukion/ci-runner:test
 
     - uses: actions/checkout@v1
 
@@ -25,16 +22,19 @@ jobs:
         git submodule sync --recursive
         git submodule update --init --recursive
 
-#    - name: Install dependencies
-#      shell: bash -e {0}
-#      run: |
-#        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
-#        REQ=($(find | grep "requirements.txt")) || true
-#        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
-#
-#        # Installing additional apt packages
-#        PACK=($(find | grep "packages.txt")) || true
-#        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
+    - name: Install dependencies
+      shell: bash -e {0}
+      run: |
+        # Get into docker container
+        /usr/bin/docker run -i -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
+
+        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
+        REQ=($(find | grep "requirements.txt")) || true
+        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
+
+        # Installing additional apt packages
+        PACK=($(find | grep "packages.txt")) || true
+        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
 
     - name: catkin_make
       shell: bash -e {0}
