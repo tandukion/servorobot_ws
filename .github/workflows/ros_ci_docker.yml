@@ -20,6 +20,7 @@ jobs:
         git submodule update --init --recursive
 
     - name: Get into docker container
+      run: |
         /usr/bin/docker run -i -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
 
     - name: Install dependencies
