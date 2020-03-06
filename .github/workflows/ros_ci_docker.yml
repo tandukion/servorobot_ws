@@ -19,6 +19,7 @@ jobs:
         PKG_CONFIG_PATH: /opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig
         CMAKE_PREFIX_PATH: /opt/ros/kinetic
         ROS_ETC_DIR: /opt/ros/kinetic/etc/ros
+        HOME: /root
 
     steps:
     - uses: actions/checkout@v1
@@ -42,7 +43,7 @@ jobs:
       run: |
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
-        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
+        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install --user -r $req; done
 
         # Installing additional apt packages
         PACK=($(find | grep "packages.txt")) || true
