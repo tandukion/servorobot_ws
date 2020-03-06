@@ -26,7 +26,7 @@ jobs:
     - name: Install dependencies
       shell: bash -e {0}
       run: |
-        /usr/bin/docker run -i -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
+        /usr/bin/docker run -it -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
         for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
@@ -38,13 +38,13 @@ jobs:
     - name: catkin_make
       shell: bash -e {0}
       run: |
-        /usr/bin/docker run -i -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
+        /usr/bin/docker run -it -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
         catkin_make
       
     - name: rostest
       shell: bash -e {0}
       run: |
-        /usr/bin/docker run -i -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
+        /usr/bin/docker run -it -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
         source devel/setup.bash
         catkin_make run_tests
         catkin_test_results
