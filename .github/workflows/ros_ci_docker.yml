@@ -39,9 +39,17 @@ jobs:
         echo $HOME
         ls $HOME -a
 
+    - name: Check pip library
+      run: |
+        pip show numpy
+
     - name: Install dependencies
       shell: bash -e {0}
       run: |
+        # Installing additional ROS package from "rospack.txt"
+        FILE=($(find | grep "rospack.txt")) || true
+        for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do sudo apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
+
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
         for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install --user -r $req; done
@@ -49,6 +57,10 @@ jobs:
         # Installing additional apt packages
         PACK=($(find | grep "packages.txt")) || true
         for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
+
+    - name: Check pip library
+      run: |
+        pip show numpy
 
     - name: catkin_make
       shell: bash -e {0}
