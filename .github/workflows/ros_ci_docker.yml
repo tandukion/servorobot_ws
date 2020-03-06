@@ -13,10 +13,9 @@ jobs:
     steps:
     - run: |
         sudo ls /usr/local/share
-        dpkg -L libboost-dev
 
     - run: |
-        docker run -i tandukion/ci-runner:test
+        /usr/bin/docker run -i tandukion/ci-runner:test
 
     - uses: actions/checkout@v1
 
