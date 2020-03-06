@@ -39,7 +39,8 @@ jobs:
         echo $HOME
         ls $HOME -a
         echo "Test copying /root/.local"
-        cp -a /root/.local /host_home
+        sudo cp -a /root/.local /host_home
+        sudo chown -R $USER /host_home/.local
         echo $HOME
         ls $HOME -a
 
