@@ -5,8 +5,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-16.04
-    container:
-      image: tandukion/ci-runner:test
+#    container:
+#      image: tandukion/ci-runner:test
     env:
       ROS_DISTRO: kinetic
 
@@ -19,12 +19,12 @@ jobs:
         git submodule sync --recursive
         git submodule update --init --recursive
 
+    - name: Get into docker container
+        /usr/bin/docker run -i -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
+
     - name: Install dependencies
       shell: bash -e {0}
       run: |
-        # Get into docker container
-        /usr/bin/docker run -i -w $(pwd) -v $(pwd):$(pwd) tandukion/ci-runner:test
-
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
         for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install -r $req; done
