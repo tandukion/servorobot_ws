@@ -19,7 +19,9 @@ jobs:
         PKG_CONFIG_PATH: /opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig
         CMAKE_PREFIX_PATH: /opt/ros/kinetic
         ROS_ETC_DIR: /opt/ros/kinetic/etc/ros
-      options: -v /github/home/.local:/root/.local
+      options: --name ci-runner
+      volumes:
+        - /github/home:/main
 
     steps:
     - uses: actions/checkout@v1
@@ -38,6 +40,8 @@ jobs:
         ls $(pwd) -a
         echo $HOME
         ls $HOME -a
+        echo "Test copying /root/.local"
+        /usr/bin/docker run --rm --volumes-from ci-runner tandukion/ci-runner:test cp -a /root/.local /main
 
     - name: Check pip library
       run: |

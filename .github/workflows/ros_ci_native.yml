@@ -9,6 +9,9 @@ jobs:
       ROS_DISTRO: kinetic
 
     steps:
+    - name: Check ENV
+      run: |
+        printenv
     - uses: actions/checkout@v2
     - name: Checkout submodules
       run: |
@@ -46,7 +49,7 @@ jobs:
     - name: Check boost
       run: |
         dpkg -s libboost-dev | grep 'Version'
-        
+
     - name: catkin_make
       run: |
         source /opt/ros/$ROS_DISTRO/setup.bash
