@@ -25,7 +25,6 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: Checkout submodules
-      shell: bash -e {0}
       run: |
         git submodule sync --recursive
         git submodule update --init --recursive
@@ -44,12 +43,7 @@ jobs:
         pip show numpy
 
     - name: Install dependencies
-      shell: bash -e {0}
       run: |
-        # Installing additional ROS package from "rospack.txt"
-        FILE=($(find | grep "rospack.txt")) || true
-        for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
-
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
         for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install --user -r $req; done
@@ -58,17 +52,19 @@ jobs:
         PACK=($(find | grep "packages.txt")) || true
         for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
 
+        # Installing additional ROS package from "rospack.txt"
+        FILE=($(find | grep "rospack.txt")) || true
+        for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
+
     - name: Check pip library
       run: |
         pip show numpy
 
     - name: catkin_make
-      shell: bash -e {0}
       run: |
         catkin_make
       
     - name: rostest
-      shell: bash -e {0}
       run: |
         source devel/setup.bash
         catkin_make run_tests
