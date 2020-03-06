@@ -19,7 +19,7 @@ jobs:
         PKG_CONFIG_PATH: /opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig
         CMAKE_PREFIX_PATH: /opt/ros/kinetic
         ROS_ETC_DIR: /opt/ros/kinetic/etc/ros
-        HOME: /root
+      options: -v /github/home:/root
 
     steps:
     - uses: actions/checkout@v1
@@ -38,8 +38,8 @@ jobs:
         echo $PATH
         echo $PYTHONPATH
         echo $(pwd)
-        echo $HOME
         ls $(pwd) -a
+        echo $HOME
         ls $HOME -a
 
     - name: Install dependencies
