@@ -37,6 +37,10 @@ jobs:
       run: |
         echo $PATH
         echo $PYTHONPATH
+        echo $(pwd)
+        echo $HOME
+        ls $(pwd) -a
+        ls $HOME -a
 
     - name: Install dependencies
       shell: bash -e {0}
