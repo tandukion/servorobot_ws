@@ -15,7 +15,7 @@ jobs:
         ROS_VERSION: 1
         LD_LIBRARY_PATH: /opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu
         PATH: /opt/ros/kinetic/bin:/root/:local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-        PYTHONPATH: /opt/ros/kinetic/lib/python2
+        PYTHONPATH: /opt/ros/kinetic/lib/python2.7/dist-packages
         PKG_CONFIG_PATH: /opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig
         CMAKE_PREFIX_PATH: /opt/ros/kinetic
         ROS_ETC_DIR: /opt/ros/kinetic/etc/ros
@@ -30,9 +30,6 @@ jobs:
         git submodule sync --recursive
         git submodule update --init --recursive
 
-#    - name: Get docker container
-#      run: |
-#        /usr/bin/docker pull tandukion/ci-runner:test
     - name: Check PATH
       run: |
         echo $PATH
