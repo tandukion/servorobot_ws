@@ -11,9 +11,6 @@ jobs:
       ROS_DISTRO: kinetic
 
     steps:
-    - run: |
-        sudo ls /usr/local/share
-
     - uses: actions/checkout@v1
 
     - name: Checkout submodules
