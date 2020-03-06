@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-16.04
     container:
-      image: tandukion/ci-runner:test
+      image: tandukion/ci-runner:ros-moveit
       env:
         ROS_DISTRO: kinetic
         ROS_ROOT: /opt/ros/kinetic/share/ros
@@ -19,7 +19,6 @@ jobs:
         PKG_CONFIG_PATH: /opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig
         CMAKE_PREFIX_PATH: /opt/ros/kinetic
         ROS_ETC_DIR: /opt/ros/kinetic/etc/ros
-      options: -v /github/home:/host_home
 
     steps:
     - name: Checkout the repository
