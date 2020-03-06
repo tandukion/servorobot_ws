@@ -22,7 +22,8 @@ jobs:
       options: -v /github/home:/host_home
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout the repository
+      uses: actions/checkout@v1
 
     - name: Checkout submodules
       shell: bash -e {0}
@@ -30,24 +31,9 @@ jobs:
         git submodule sync --recursive
         git submodule update --init --recursive
 
-    - name: Check PATH
+    - name: Copy installed python library from container
       run: |
-        echo $PATH
-        echo $PYTHONPATH
-        echo $(pwd)
-        ls $(pwd) -a
-        echo $HOME
-        ls $HOME -a
-        echo "ls /root/.local"
-        ls /root -a
-        ls /root/.local -a
         cp -a /root/.local $HOME
-        echo $HOME
-        ls $HOME -a
-
-    - name: Check pip library
-      run: |
-        pip show numpy
 
     - name: Install dependencies
       shell: bash -e {0}
@@ -63,10 +49,6 @@ jobs:
         # Installing additional ROS package from "rospack.txt"
         FILE=($(find | grep "rospack.txt")) || true
         for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
-
-    - name: Check pip library
-      run: |
-        pip show numpy
 
     - name: catkin_make
       shell: bash -e {0}
