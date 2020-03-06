@@ -19,12 +19,13 @@ jobs:
         PKG_CONFIG_PATH: /opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig
         CMAKE_PREFIX_PATH: /opt/ros/kinetic
         ROS_ETC_DIR: /opt/ros/kinetic/etc/ros
-      options: -v /github/home:/root
+      options: -v /github/home/.local:/root/.local
 
     steps:
     - uses: actions/checkout@v1
 
     - name: Checkout submodules
+      shell: bash -e {0}
       run: |
         git submodule sync --recursive
         git submodule update --init --recursive
@@ -43,6 +44,7 @@ jobs:
         pip show numpy
 
     - name: Install dependencies
+      shell: bash -e {0}
       run: |
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
@@ -61,10 +63,12 @@ jobs:
         pip show numpy
 
     - name: catkin_make
+      shell: bash -e {0}
       run: |
         catkin_make
       
     - name: rostest
+      shell: bash -e {0}
       run: |
         source devel/setup.bash
         catkin_make run_tests
