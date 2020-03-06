@@ -41,7 +41,7 @@ jobs:
         echo "ls /root/.local"
         ls /root -a
         ls /root/.local -a
-        cp -a /root/.local /host_home
+        cp -a /root/.local $HOME
         echo $HOME
         ls $HOME -a
 
