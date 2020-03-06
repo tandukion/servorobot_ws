@@ -48,7 +48,7 @@ jobs:
       run: |
         # Installing additional ROS package from "rospack.txt"
         FILE=($(find | grep "rospack.txt")) || true
-        for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do sudo apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
+        for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
 
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
