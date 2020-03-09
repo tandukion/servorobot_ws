@@ -27,7 +27,7 @@ jobs:
     - name: Checkout the repository
       uses: actions/checkout@v1
       with:
-        submodules: true
+        submodules: recursive
 
 #    - name: Checkout submodules
 #      shell: bash -e {0}
@@ -62,13 +62,13 @@ jobs:
       run: |
         catkin_make
 
-    - name: pytest
-      shell: bash -e {0}
-      run: |
-        pip show pytest
-        pytest --version
-        source devel/setup.bash
-        pytest
+#    - name: pytest
+#      shell: bash -e {0}
+#      run: |
+#        pip show pytest
+#        pytest --version
+#        source devel/setup.bash
+#        pytest
       
     - name: rostest
       shell: bash -e {0}
