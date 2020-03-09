@@ -44,10 +44,6 @@ jobs:
       run: |
         apt-get -qq update
 
-        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
-        REQ=($(find | grep "requirements.txt")) || true
-        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install --user -r $req; done
-
         # Installing additional apt packages
         PACK=($(find | grep "packages.txt")) || true
         for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
@@ -55,6 +51,10 @@ jobs:
         # Installing additional ROS package from "rospack.txt"
         FILE=($(find | grep "rospack.txt")) || true
         for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
+
+        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
+        REQ=($(find | grep "requirements.txt")) || true
+        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install --user -r $req; done
 
     - name: catkin_make
       shell: bash -e {0}
@@ -64,6 +64,8 @@ jobs:
     - name: pytest
       shell: bash -e {0}
       run: |
+        pip show pytest
+        pytest --version
         source devel/setup.bash
         pytest
       
