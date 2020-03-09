@@ -62,7 +62,7 @@ jobs:
         catkin_make
 
     - name: pytest
-      shel: bash -e {0}
+      shell: bash -e {0}
       run: |
         source devel/setup.bash
         pytest
