@@ -26,11 +26,11 @@ jobs:
       with:
         submodules: true
 
-    - name: Checkout submodules
-      shell: bash -e {0}
-      run: |
-        git submodule sync --recursive
-        git submodule update --init --recursive
+#    - name: Checkout submodules
+#      shell: bash -e {0}
+#      run: |
+#        git submodule sync --recursive
+#        git submodule update --init --recursive
 
     - name: Copy installed python library from container
       run: |
