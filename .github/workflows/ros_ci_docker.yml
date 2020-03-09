@@ -39,6 +39,8 @@ jobs:
     - name: Install dependencies
       shell: bash -e {0}
       run: |
+        apt-get -qq update
+        
         # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
         REQ=($(find | grep "requirements.txt")) || true
         for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install --user -r $req; done
