@@ -14,7 +14,7 @@ jobs:
         ROS_MASTER_URI: http://localhost:11311
         ROS_VERSION: 1
         LD_LIBRARY_PATH: /opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu
-        PATH: /opt/ros/kinetic/bin:/root/:local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        PATH: /opt/ros/kinetic/bin:/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         PYTHONPATH: /opt/ros/kinetic/lib/python2.7/dist-packages
         PKG_CONFIG_PATH: /opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig
         CMAKE_PREFIX_PATH: /opt/ros/kinetic
@@ -38,6 +38,7 @@ jobs:
     - name: Copy installed python library from container
       run: |
         cp -a /root/.local $HOME
+        ls $HOME -a
 
     - name: Install dependencies
       shell: bash -e {0}
