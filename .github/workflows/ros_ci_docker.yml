@@ -1,0 +1,78 @@
+name: ROS CI (docker)
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    container:
+      image: tandukion/ci-runner:ros-moveit
+      env:
+        ROS_DISTRO: kinetic
+        ROS_ROOT: /opt/ros/kinetic/share/ros
+        ROS_PACKAGE_PATH: /opt/ros/kinetic/share
+        ROS_MASTER_URI: http://localhost:11311
+        ROS_VERSION: 1
+        LD_LIBRARY_PATH: /opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu
+        PATH: /opt/ros/kinetic/bin:/github/home/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        PYTHONPATH: /opt/ros/kinetic/lib/python2.7/dist-packages
+        PKG_CONFIG_PATH: /opt/ros/kinetic/lib/pkgconfig:/opt/ros/kinetic/lib/x86_64-linux-gnu/pkgconfig
+        CMAKE_PREFIX_PATH: /opt/ros/kinetic
+        ROS_ETC_DIR: /opt/ros/kinetic/etc/ros
+
+    steps:
+    - name: Check user
+      run: |
+        whoami
+    - name: Checkout the repository
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+#    - name: Checkout submodules
+#      shell: bash -e {0}
+#      run: |
+#        git submodule sync --recursive
+#        git submodule update --init --recursive
+
+    - name: Copy installed python library from container
+      run: |
+        cp -a /root/.local $HOME
+        echo $PATH
+
+    - name: Install dependencies
+      shell: bash -e {0}
+      run: |
+        apt-get -qq update
+
+        # Installing additional apt packages
+        PACK=($(find | grep "packages.txt")) || true
+        for pack in ${PACK[@]}; do echo "Installing packages from $pack" && cat $pack | xargs apt-get -qq install -y; done
+
+        # Installing additional ROS package from "rospack.txt"
+        FILE=($(find | grep "rospack.txt")) || true
+        for file in ${FILE[@]}; do mapfile -t LIST < $file && for PACKAGE in ${LIST[@]}; do apt-get -qq install -y ros-$ROS_DISTRO-$PACKAGE; done; done
+
+        # Installing additional python packages requirements on submodules by creating list of "requirements.txt"
+        REQ=($(find | grep "requirements.txt")) || true
+        for req in ${REQ[@]}; do echo "Installing requirements from $req" && pip install --user -r $req; done
+
+    - name: catkin_make
+      shell: bash -e {0}
+      run: |
+        catkin_make
+
+#    - name: pytest
+#      shell: bash -e {0}
+#      run: |
+#        pip show pytest
+#        pytest --version
+#        source devel/setup.bash
+#        pytest
+      
+    - name: rostest
+      shell: bash -e {0}
+      run: |
+        source devel/setup.bash
+        catkin_make run_tests
+        catkin_test_results

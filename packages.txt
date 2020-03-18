@@ -1,0 +1,5 @@
+python-dev
+python-tk
+graphviz
+libgraphviz-dev
+pkg-config
