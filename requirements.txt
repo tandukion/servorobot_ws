@@ -1,7 +1,7 @@
 transitions[diagrams]==0.6.8
 # Test additional library
 pygraphviz==1.5
-scipy==1.2.3
+scipy==1.10.0
 rospy-message-converter==0.4.0
 pandas==0.24.2
 memory_profiler==0.55.0
